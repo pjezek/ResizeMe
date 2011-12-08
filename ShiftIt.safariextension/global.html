@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<script>
+// Register for the validate and command events.
+safari.application.addEventListener("command", resize, false);
+safari.application.addEventListener("validate", validateCommand, false);
+
+safari.extension.settings.addEventListener("change", sizeChanged, false);
+
+safari.application.addEventListener("beforeload", hideBar, true);
+
+/* my */
+var oldInner = newInner = 0, newWidth, newHeight;
+function _getWindow()
+{
+    var bars2 = safari.extension.bars;
+        for (var i = 0; i < bars2.length; ++i) {
+            if (bars2[i].identifier !== "resizeme-bar")
+                continue;
+            
+            var barWindow2 = bars2[i].contentWindow;
+            return barWindow2;
+        }
+}
+function resizeWindowTo(w, h) {
+    // store desired width
+    newWidth = w;
+    newHeight = h;
+    // start over
+    oldInner = 0;
+    safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resize", "data");
+}
+/** formula found here: http://www.hypergeneric.com/corpus/javascript-inner-viewport-resize/ */
+function respondToMessage(theMessageEvent) {
+    var w, oldWidth, oldHeight, offsetX, offsetY;
+    if(theMessageEvent.name === "doResize")
+    {
+        if (oldInner === 0) {
+            oldInner = theMessageEvent.message;
+            // alert("oldInner: " + oldInner[0] + "," + oldInner[1]);
+            w = _getWindow();
+            w.resizeTo(screen.availWidth,screen.availHeight);
+            safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("resize", "data");
+        } else {
+            newInner = theMessageEvent.message;
+            /** calculation with old width (inaccurate!):
+            // alert("newInner: " + newInner[0] + "," + newInner[1]);
+            oldWidth = Math.floor(oldInner[0] * screen.availWidth / newInner[0]);
+            oldHeight = Math.floor(oldInner[1] * screen.availHeight / newInner[1]);
+            // alert("oldWidth: " + oldWidth + ", oldHeight: " + oldHeight);
+            // alert("oldInner: " + oldInner[0] + ", oldInner: " + oldInner[1]);
+            offsetX = oldWidth - oldInner[0];
+            offsetY = oldHeight - oldInner[1];
+            */
+            /** calculation with maximized screen (accurate) */
+            offsetX = screen.availWidth - newInner[0];
+            offsetY = screen.availHeight - newInner[1];
+            w = _getWindow();
+            // alert(
+            //     "newWidth: " + newWidth + ", offset: " + offsetX , "= " + (newWidth + offsetX) + "\n" +
+            //     "newHeight: " + newHeight + ", offset: " + offsetY , "= " + (newHeight + offsetY)
+            // );
+            w.resizeTo(newWidth + offsetX, newHeight + offsetY);
+        }
+    }
+}
+safari.application.addEventListener("message", respondToMessage, false);
+/* end my */
+
+
+function hideBar(event)
+{
+	const bars = safari.extension.bars;
+	for (var i = 0; i < bars.length; ++i) {
+		var bar = bars[i];
+		if (bar.identifier === "resizeme-bar")
+		{
+			bar.hide();
+		}
+	}
+}
+
+var resizeto = safari.extension.settings.size;
+
+function sizeChanged(event)
+{
+	if (event.key == "size")
+	   {
+	   resizeto=event.newValue;
+	   }
+}
+
+function resize(event)
+{
+	// You should always check the command.
+	if (event.command != "resizeme-button" && event.command != "context-menu")
+		return;
+	
+	if(resizeto === "show-options")
+	{
+		const bars = safari.extension.bars;
+		const activeBrowserWindow = safari.application.activeBrowserWindow;
+		for (var i = 0; i < bars.length; ++i) {
+		   	var bar = bars[i];
+		    if (bar.browserWindow === activeBrowserWindow && bar.identifier === "resizeme-bar")
+		    {
+		       	bar.show();
+		    }
+		}
+	}
+	else if(resizeto === "fullscreen")
+	{
+		_fullscreen();
+	}
+	else if(resizeto === "640x480")
+	{
+		_640x480();
+	}
+	else if(resizeto === "800x600")
+	{
+		_800x600();
+	}
+	else if(resizeto === "1024x768")
+	{
+		_1024x768();
+	}
+	else if(resizeto === "1280x1024")
+	{
+		_1280x1024();
+	}
+	else if(resizeto === "1600x1200")
+	{
+		_1600x1200();
+	}
+	else if(resizeto === "320x480")
+	{
+	    resizeWindowTo(320, 480);
+	}
+}
+function _fullscreen()
+{
+	var bars = safari.extension.bars;
+		for (var i = 0; i < bars.length; ++i) {
+			if (bars[i].identifier !== "resizeme-bar")
+				continue;
+
+			var barWindow = bars[i].contentWindow;
+			if (typeof barWindow.fullscreen === "function")
+				barWindow.fullscreen();
+		}
+}
+
+function _640x480()
+{
+	var bars2 = safari.extension.bars;
+		for (var i = 0; i < bars2.length; ++i) {
+			if (bars2[i].identifier !== "resizeme-bar")
+				continue;
+
+			var barWindow2 = bars2[i].contentWindow;
+			if (typeof barWindow2.size1 === "function")
+				barWindow2.size1();
+		}
+}
+function _800x600()
+{
+	var bars2 = safari.extension.bars;
+		for (var i = 0; i < bars2.length; ++i) {
+			if (bars2[i].identifier !== "resizeme-bar")
+				continue;
+
+			var barWindow2 = bars2[i].contentWindow;
+			if (typeof barWindow2.size2 === "function")
+				barWindow2.size2();
+		}
+}
+function _1024x768()
+{
+	var bars2 = safari.extension.bars;
+		for (var i = 0; i < bars2.length; ++i) {
+			if (bars2[i].identifier !== "resizeme-bar")
+				continue;
+
+			var barWindow2 = bars2[i].contentWindow;
+			if (typeof barWindow2.size3 === "function")
+				barWindow2.size3();
+		}
+}
+function _1280x1024()
+{
+	var bars2 = safari.extension.bars;
+		for (var i = 0; i < bars2.length; ++i) {
+			if (bars2[i].identifier !== "resizeme-bar")
+				continue;
+
+			var barWindow2 = bars2[i].contentWindow;
+			if (typeof barWindow2.size4 === "function")
+				barWindow2.size4();
+		}
+}
+function _1600x1200()
+{
+	var bars2 = safari.extension.bars;
+		for (var i = 0; i < bars2.length; ++i) {
+			if (bars2[i].identifier !== "resizeme-bar")
+				continue;
+
+			var barWindow2 = bars2[i].contentWindow;
+			if (typeof barWindow2.size5 === "function")
+				barWindow2.size5();
+		}
+}
+
+function validateCommand(event)
+{
+	// You should always check the command.
+	if (event.command !== "resizeme-button")
+		return;
+
+}
+</script>

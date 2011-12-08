@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ResizeMe!</title>
+<style type="text/css">
+body {      
+    margin: 0;
+    padding: 0;
+    font: 11px/15px 'Lucida Grande', sans-serif;
+}
+#bar{
+	height:25px;
+    padding-top: 4px;
+    padding-left: 8px;
+    padding-right: 8px; 
+}
+.barButton {
+	display: block;
+    float: left;
+   	clear: none;
+	margin: 0 2px;
+	border: 1px solid #555;
+	-webkit-border-radius: 3px;
+	height: 22px;               
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#b8b8b8));
+	text-shadow: rgba(255,255,255, .5) 0 1px 0;
+	-webkit-box-shadow: rgba(255,255,255,.18) 0 1px 0;  
+}
+.barButton:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(#b8b8b8), to(#818181));                
+}
+#title {
+	margin-top:4px;
+    padding: 0 8px;
+    width: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;             
+    text-shadow: rgba(255,255,255,.3) 0 1px 0;
+}
+#right{
+	float: right;
+	clear: none;
+}
+#left{
+	float:left;
+	clear:none;
+}
+</style>
+<script type="text/javascript">
+		function closeBar()
+		{
+			const bars = safari.extension.bars;
+			const activeBrowserWindow = safari.application.activeBrowserWindow;
+			for (var i = 0; i < bars.length; ++i) {
+				var bar = bars[i];
+				if (bar.browserWindow === activeBrowserWindow && bar.identifier === "resizeme-bar")
+				{
+					bar.hide();
+				}
+			}
+		}
+		function fullscreen()
+		{
+			window.self.moveTo(0,0);
+			window.self.resizeTo(screen.availWidth,screen.availHeight);
+		}
+		function size1()
+		{
+				window.self.moveTo(0,0);
+				window.self.resizeTo(640,480);
+		}
+		function size2()
+		{
+				window.self.moveTo(0,0);
+				window.self.resizeTo(800,600);
+		}
+		function size3()
+		{
+				window.self.moveTo(0,0);
+				window.self.resizeTo(1024,768);
+		}
+		function size4()
+		{
+				window.self.moveTo(0,0);
+				window.self.resizeTo(1280,1024);
+		}
+		function size5()
+		{
+				window.self.moveTo(0,0);
+				window.self.resizeTo(1600,1200);
+		}
+		function innerSize1()
+		{
+		    // ResizeToInner(320, 480);
+		    safari.extension.globalPage.contentWindow.resizeWindowTo(320, 480);
+		}
+		function innerSize2()
+		{
+		    // ResizeToInner(640, 960);
+		    safari.extension.globalPage.contentWindow.resizeWindowTo(640, 960);
+		}
+</script>
+</head>
+<body>
+	<div id="bar">
+		<div id="left">
+			<input type="button" id="btnfullscreen" value="Full Screen" class="barButton" onclick="fullscreen()" />
+			<input type="button" id="btn640x480" value="640x480" class="barButton" onclick="size1()" />
+			<input type="button" id="btn800x600" value="800x600" class="barButton" onclick="size2()" />
+			<input type="button" id="btn1024x768" value="1024x768" class="barButton" onclick="size3()" />
+			<input type="button" id="btn1320x480" value="i320x480" class="barButton" onclick="innerSize1()" />
+			<input type="button" id="btn1640x690" value="i640x690" class="barButton" onclick="innerSize2()" />
+		</div>
+		<div id="right">
+			<input type="button" id="btncancel" value="Cancel" class="barButton" onclick="closeBar()" />
+		</div>
+		<div id="title">
+			Resize Me!
+		</div>
+	</div>
+</body>
+</html>

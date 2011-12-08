@@ -1,0 +1,14 @@
+ShiftIt
+=======
+
+It's an extended version of ResizeMe [1], which can resize Browser's window with innerWidth and innerHeigt.
+
+Install
+-------
+OSX only: Download dist/ShiftIt.safariextz and double click it.
+
+Build
+-----
+Open "ShiftIt.safariextension" folder in Extension Builder.
+
+[1] http://web.me.com/aaronholla/Safari_Extensions/ResizeMe.html

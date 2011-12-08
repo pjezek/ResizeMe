@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>DefaultValue</key>
+		<string>fullscreen</string>
+		<key>Key</key>
+		<string>size</string>
+		<key>Secure</key>
+		<false/>
+		<key>Title</key>
+		<string>Resize Window to</string>
+		<key>Titles</key>
+		<array>
+			<string>Full Screen</string>
+			<string>640 x 480</string>
+			<string>800 x 600</string>
+			<string>1024 x 768</string>
+			<string>1280 x 1024</string>
+			<string>1600 x 1200</string>
+			<string>Let Me Choose</string>
+			<string>320x480</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>fullscreen</string>
+			<string>640x480</string>
+			<string>800x600</string>
+			<string>1024x768</string>
+			<string>1280x1024</string>
+			<string>1600x1200</string>
+			<string>show-options</string>
+			<string>320x480</string>
+		</array>
+	</dict>
+</array>
+</plist>
